@@ -66,9 +66,6 @@ public class TestCanvas extends JPanel {
 
 	public void addDrawObject(DrawObject drawObject){
 		this.objects.add(drawObject);
-	}
-
-	public void show(){
 		repaint();
 	}
 
@@ -81,7 +78,7 @@ public class TestCanvas extends JPanel {
 	public void clear(){
 		objects.clear();
 		this.nowPoint = 0;
-		show();
+		repaint();
 	}
 
 	public void addNowPoint(int i){
