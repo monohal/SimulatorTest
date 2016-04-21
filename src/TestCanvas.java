@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 
 public class TestCanvas extends JPanel {
-	public static final int CANVAS_X_MAX = 600;
-	public static final int CANVAS_Y_MAX = 400;
+	public static final int CANVAS_WIDTH_MAX = 600;
+	public static final int CANVAS_HEIGHT_MAX = 400;
 
 	public ArrayList<Point> points = new ArrayList<Point>(10);
 	public ArrayList<DrawObject> objects = new ArrayList<DrawObject>();
@@ -22,14 +22,14 @@ public class TestCanvas extends JPanel {
 	}
 
 	public TestCanvas(){
-		this(CANVAS_X_MAX, CANVAS_Y_MAX);
+		this(CANVAS_WIDTH_MAX, CANVAS_HEIGHT_MAX);
 	}
 
 	public void paintComponent(Graphics g) {
 		Graphics2D g2 = (Graphics2D)g;
 
 		g.setColor(Color.white);
-		g.fillRect(0, 0, CANVAS_X_MAX, CANVAS_Y_MAX);
+		g.fillRect(0, 0, CANVAS_WIDTH_MAX, CANVAS_HEIGHT_MAX);
 		System.out.printf("paint\n");
 
 		paintDrawObjects(g2);

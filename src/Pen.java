@@ -8,6 +8,7 @@ public class Pen{
 		this.canvas = canvas;
 	}
 
+	
 	public void Draw(DrawObject drawObject){
 		this.canvas.addDrawObject(drawObject);
 		canvas.show();

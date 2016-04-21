@@ -1,5 +1,6 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -16,6 +17,52 @@ public class SimulatorTest extends JFrame {
 	public JButton btnClear;
 	public Pen pen;
 
+	private final static void createAndShowGUI(){
+		//↓↓レイアウト設定↓↓
+		JFrame mainFrame = new JFrame("SimulatorTest");
+		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		JPanel panel = new JPanel();
+		panel.setLayout(new BorderLayout());
+		{
+			//Canvas CENTER
+			final TestCanvas canvas = new TestCanvas();
+			panel.add(canvas, BorderLayout.CENTER);
+
+			//buttonPanel SOUTH
+			JPanel buttonPanel = new JPanel();
+			buttonPanel.setLayout(new FlowLayout());
+			{
+				//Testボタン
+				JButton btnTest = new JButton("TEST");
+				btnTest.addActionListener(
+						new ActionListener(){
+							public void actionPerformed(ActionEvent event){
+								//Test(pen);
+							}
+						});
+				buttonPanel.add(btnTest);
+
+				//Clearボタン
+				JButton btnClear = new JButton("CLEAR");
+				btnClear.addActionListener(
+						new ActionListener(){
+							public void actionPerformed(ActionEvent event){
+								System.out.printf("clear");
+								canvas.clear();
+							}
+						});
+				buttonPanel.add(btnClear);
+			}
+			panel.add(buttonPanel, BorderLayout.SOUTH);
+		}
+
+		mainFrame.getContentPane().add(panel, BorderLayout.CENTER);
+		mainFrame.pack();
+		mainFrame.setVisible(true);
+		//↑↑レイアウト設定↑↑
+	}
+
 	public SimulatorTest() {
 		//オブジェクトの生成
 		p = new JPanel();
@@ -25,11 +72,10 @@ public class SimulatorTest extends JFrame {
 
 		// タイトルを設定
 		setTitle("SimulatorTest");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		//レイアウトの設定
 		p.setLayout(null);
-		canvas.setBounds(0, 0, TestCanvas.CANVAS_X_MAX, TestCanvas.CANVAS_Y_MAX);
+		canvas.setBounds(0, 0, TestCanvas.CANVAS_WIDTH_MAX, TestCanvas.CANVAS_HEIGHT_MAX);
 		canvas.setBackground(Color.white);
 		btnTest.setBounds(canvas.getWidth()/ 2 - 40, canvas.getHeight(), 80, 30);
 		btnClear.setBounds(canvas.getWidth() / 2 - 40 + 100, canvas.getHeight(), 80, 30);
@@ -94,6 +140,7 @@ public class SimulatorTest extends JFrame {
 	}
 
 	public static void main(String[] args) {
-		SimulatorTest frame = new SimulatorTest();
+		//SimulatorTest frame = new SimulatorTest();
+		createAndShowGUI();
 	}
 }
