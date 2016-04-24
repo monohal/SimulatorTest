@@ -16,7 +16,7 @@ public class Ruler{
 		double vec12[] ={p1.x - p2.x,  p1.y - p2.y };
 		double vec23[] ={p3.x - p2.x,  p3.y - p2.y };
 
-		double vec1223 = vec12[0]*vec23[0]+vec12[1]*vec23[1];
+		double vec1223 = vec12[0] * vec23[0] + vec12[1] * vec23[1];
 		double absvec12 = Math.sqrt(Math.pow(vec12[0], 2) + Math.pow(vec12[1], 2));
 		double absvec23 = Math.sqrt(Math.pow(vec23[0], 2) + Math.pow(vec23[1], 2));
 

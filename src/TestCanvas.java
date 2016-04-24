@@ -50,9 +50,10 @@ public class TestCanvas extends JPanel {
 				pointx[j] = point.x;
 				pointy[j] = point.y;
 
+				//TODO まじっくなんばー
 				//Polygon描写
 				g2.setColor(point.color);
-				g2.drawRect(point.x, point.y, 3, 3);
+				g2.drawOval(point.x - 5, point.y - 5, 10, 10);
 				g2.drawString(point.text, point.x - 10, point.y - 10);
 			}
 			//Point描写
