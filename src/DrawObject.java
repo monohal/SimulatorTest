@@ -136,4 +136,8 @@ public class DrawObject{
 		return this.points;
 	}
 
+	public void clean(){
+		points.clear();
+	}
+
 }

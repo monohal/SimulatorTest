@@ -66,6 +66,11 @@ public class TestCanvas extends JPanel {
 		repaint();
 	}
 
+	public void addDrawObject(Point point){
+		DrawObject drawObject = new DrawObject(point);
+		addDrawObject(drawObject);
+	}
+
 	//TODO sortのタイミングをDrawObjectが生成された瞬間に変更
 	//TODO addNowPointがよくわからんことになってる
 	public void settingDrawObject(DrawObject drawObject){

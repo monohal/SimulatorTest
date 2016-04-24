@@ -1,7 +1,11 @@
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -19,8 +23,9 @@ public class SimulatorTest{
 		JPanel panel = new JPanel();
 		panel.setLayout(new BorderLayout());
 		{
-			//Canvas CENTER
 			final TestCanvas canvas = new TestCanvas();
+
+			//Canvas CENTER
 			panel.add(canvas, BorderLayout.CENTER);
 
 			//buttonPanel SOUTH
@@ -57,10 +62,28 @@ public class SimulatorTest{
 							}
 						});
 				buttonPanel.add(btnClear);
+
 			}
 			panel.add(buttonPanel, BorderLayout.SOUTH);
-		}
 
+
+			//TODO オブジェクト変数で頑張る
+			//Canvas EAST
+			/*
+			JPanel viewPanel = new JPanel();
+			{
+				viewPanel.setLayout(new BoxLayout(viewPanel, BoxLayout.PAGE_AXIS));
+
+				JLabel test = new JLabel("TEST");
+				test.setPreferredSize(new Dimension(100, 100));
+				viewPanel.add(test);
+				viewPanel.add(new JLabel("A"));
+				viewPanel.add(new JLabel("B"));
+				viewPanel.add(new JLabel("C"));
+			}
+			panel.add(viewPanel, BorderLayout.EAST);
+			*/
+		}
 		mainFrame.getContentPane().add(panel, BorderLayout.CENTER);
 		mainFrame.pack();
 		mainFrame.setVisible(true);
@@ -77,7 +100,15 @@ public class SimulatorTest{
 	}
 
 	private static void TestB(TestCanvas canvas){
-		DrawObject sankaku = createRundomizeDrawObject(3, canvas);
+
+		ArrayList<Point> san = new ArrayList<Point>();
+		san.add(new Point(250, 50));
+		san.add(new Point(50, 200));
+		san.add(new Point(450, 300));
+
+		//DrawObject sankaku = createRundomizeDrawObject(3, canvas);
+		DrawObject sankaku = new DrawObject(san);
+
 		ArrayList<Point> points = sankaku.getPoint();
 
 		sankaku.setFlagSortPoint(true);
@@ -88,8 +119,7 @@ public class SimulatorTest{
 		//原点を作成
 		Point oPoint = new Point();
 		oPoint.setText("O");
-		DrawObject oDrawObject = new DrawObject(oPoint);
-		canvas.addDrawObject(oDrawObject);
+		canvas.addDrawObject(oPoint);
 
 		//セッティング
 		Point xPoint = null;
@@ -129,7 +159,6 @@ public class SimulatorTest{
 			double distance = Ruler.getDistance(pointA, randomPoint)
 					+ Ruler.getDistance(pointB, randomPoint)
 					+ Ruler.getDistance(pointC, randomPoint);
-
 			if(distance < Lmin){
 				Lmin = distance;
 				xPoint = randomPoint;
@@ -138,8 +167,42 @@ public class SimulatorTest{
 
 		//最後に角度を取る
 		angleAXB = Ruler.getAngle(pointA, xPoint, pointB);
-		angleBXC = Ruler.getAngle(pointA, xPoint, pointB);
-		angleCXA = Ruler.getAngle(pointA, xPoint, pointB);
+		angleBXC = Ruler.getAngle(pointB, xPoint, pointC);
+		angleCXA = Ruler.getAngle(pointC, xPoint, pointA);
+
+		xPoint.color = Color.red;
+		canvas.addDrawObject(xPoint);
+
+		//ファイル操作 CSVファイルで出力
+
+		try{
+			File fl = new File("./test.csv");
+
+			if(!fl.exists()){
+				fl.createNewFile();
+
+				FileWriter fw = new FileWriter(fl);
+				fw.write( "xPoint" + ",");
+				fw.write( "Lmin" + ",");
+				fw.write( "AXB" + ",");
+				fw.write( "BXC" + ",");
+				fw.write( "CXA" + "," + "\n");
+				fw.close();
+			}
+
+			FileWriter fw = new FileWriter(fl, true);
+			fw.write( xPoint + ",");
+			fw.write( Lmin + ",");
+			fw.write( angleAXB + ",");
+			fw.write( angleBXC + ",");
+			fw.write( angleCXA + "," + "\n");
+			fw.close();
+
+		}catch(IOException e){
+			System.out.println(e + "例外が発生しました");
+		}
+
+
 
 
 	}
