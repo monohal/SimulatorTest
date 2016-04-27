@@ -53,8 +53,10 @@ public class DrawObject{
 
 
 	//TODO フォーマットの作成
+	//TODO Point の数とテキストの数が一致しないときにはどうなるんです
 	/**
-	 *
+	 * NowPointだけずらして点にラベル(AtoZ)をつける
+	 * flagSetTextがtrueの時だけ実行される
 	 * @param NowPoint 何個目の点か()
 	 */
 	public int setText(int NowPoint){
@@ -66,10 +68,13 @@ public class DrawObject{
 				i++;
 			}
 		}
-
 		return i;
 	}
 
+	/**
+	 * 指定したtextのArrayListをpointにセットする
+	 * @param texts
+	 */
 	public void setText(ArrayList<String> texts){
 		int i = 0;
 
@@ -79,7 +84,10 @@ public class DrawObject{
 		}
 	}
 
-	//TODO Point の数とテキストの数が一致しないときにはどうなるんです
+	/**
+	 * ポイントにテキストにセットする
+	 * @param text
+	 */
 	public void setText(String text){
 		ArrayList<String> texts = new ArrayList<>();
 		texts.add(text);
@@ -88,13 +96,24 @@ public class DrawObject{
 	}
 
 
+	/**
+	 * 色をセットする
+	 * @param color
+	 */
 	public void setColor(Color color){
 		this.color = color;
 	}
 
+	/**
+	 * 閉じた多角形にするためには線をつなぐ順番を考慮する必要がある
+	 * 手順
+	 * 1.yが最低値のPoint p0 をサーチする
+	 * 2.p0と同じ高さに仮想のPoint pVirtual を生成する
+	 * 3.pViertual, p0, 他のPoint の3点で角度で測り、昇順にソートする
+	 * @param drawObject
+	 */
 	public void sortDrawObject(DrawObject drawObject){
-		//yが最低値のPointを基準点とする
-
+		//1. yが最低値のPointを基準点とする
 		if(flagSortPoint){
 			Point p0 = null;
 			int miny = Integer.MAX_VALUE;
@@ -106,37 +125,55 @@ public class DrawObject{
 				}
 			}
 
-			//角度を測るための仮想の点を生成
+			//2. 角度を測るための仮想の点を生成
 			Point pVirtual = new Point(0,miny);
 
-			//角度を測り、anglesに入れる
+			//3. 角度を測り、anglesに入れる
 			for(Point p : drawObject.points){
 				double angle = Ruler.getAngle(pVirtual, p0, p);
 
+				//p = p0 の場合NuNが返るため
 				if(Double.isNaN(angle)){
 					p.setAngle(0);
 				}else{
 					p.setAngle(angle);
 				}
 			}
-
+			//anglesでソートする
 			Collections.sort(drawObject.points, new PointComparator());
 		}
 	}
 
+	/**
+	 * pointにtextを自動的にセットするかどうか
+	 * 初期値 : false
+	 * @param flag
+	 */
 	public void setFlagSetText(boolean flag){
 		this.flagSetText = flag;
 	}
 
+	/**
+	 * DrawObjectのpointをソートするかどうか
+	 * 初期値 : true
+	 * @param flag
+	 */
 	public void setFlagSortPoint(boolean flag){
 		this.flagSortPoint = flag;
 	}
 
+	/**
+	 * DrawObjectのpointsを返す
+	 * @return points
+	 */
 	public ArrayList<Point> getPoint(){
 		return this.points;
 	}
 
-	public void clean(){
+	/**
+	 * pointsの中身を消去
+	 */
+	public void clear(){
 		points.clear();
 	}
 
